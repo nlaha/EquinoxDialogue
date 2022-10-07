@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.a135d08c.css","mappings":"AAAA,KAEE,wBACF,CAEA,UAJE,qBAOF,CAHA,KAEE,QACF,CAEA,MACE,qBACF","sources":["index.css"],"sourcesContent":["html {\n  height: 100% !important;\n  background-color: rgb(26, 28, 29);\n}\n\nbody {\n  height: 100% !important;\n  margin: 0;\n}\n\n#root {\n  height: 100% !important;\n}"],"names":[],"sourceRoot":""}
