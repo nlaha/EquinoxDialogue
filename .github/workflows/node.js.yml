@@ -10,7 +10,7 @@ on:
     branches: [ "master" ]
 
 env:
-  CI=false
+  CI: false
 
 jobs:
   build:
