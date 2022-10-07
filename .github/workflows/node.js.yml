@@ -26,5 +26,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
+    - run: yarn set version berry
     - run: yarn install --immutable
     - run: npm run deploy
