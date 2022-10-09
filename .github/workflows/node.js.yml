@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  CI: false
+
 jobs:
   build:
 
@@ -28,4 +31,8 @@ jobs:
         cache: 'yarn'
     - run: yarn set version berry
     - run: yarn install --immutable
-    - run: npm run deploy
+    - run: npm run build
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: build
