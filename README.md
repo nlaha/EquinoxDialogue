@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+![logo_dialogue_rounded](https://user-images.githubusercontent.com/10292944/194968131-6b2f5ad0-f653-450c-9f19-a643aeb3158b.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Equinox dialogue is a web-based dialogue tree builder for EquinoxEngine. It is built using React, please read the instructions below if you are a contributor.
 
-## Available Scripts
+What is "Equinox Engine"? It's something I'm working on that isn't quite ready to be open sourced yet!
 
-In the project directory, you can run:
+# Screenshots
 
-### `npm start`
+![image](https://user-images.githubusercontent.com/10292944/194968612-27b5dcdd-5b97-456a-8f1e-b8d3cdb524f5.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Usage
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Build dialogue trees, when done click save or export. Save will serialize the entire tree + metadata whereas export will only export data needed by a game engine. This is tool is designed to work on a one NPC per tree system, so for each NPC you'll have a dedicated `.dlg` file. It does not currently support multiple NPCs in a single conversation.
 
-### `npm test`
+# Roadmap
+- Support for metadata conditionals (if quest completed -> unlocks dialogue subtree)
+- Support for metadata
+- Support for multiple NPCs in one conversation
+- Autosaving
+- Electron app
+- Exit node
+- Jump node and visible node IDs
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Building from source
 
-### `npm run build`
+I recommend using yarn but `npm run` works as well
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To start a development server run...
+```
+yarn start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To build static files for production use run...
+```
+yarn build
+```
