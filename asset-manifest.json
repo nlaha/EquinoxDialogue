@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/EquinoxDialogue/static/css/main.a135d08c.css",
-    "main.js": "/EquinoxDialogue/static/js/main.c9d63c59.js",
+    "main.css": "/EquinoxDialogue/static/css/main.62559a01.css",
+    "main.js": "/EquinoxDialogue/static/js/main.f9e89489.js",
     "static/js/787.5e7017bb.chunk.js": "/EquinoxDialogue/static/js/787.5e7017bb.chunk.js",
     "index.html": "/EquinoxDialogue/index.html",
-    "main.a135d08c.css.map": "/EquinoxDialogue/static/css/main.a135d08c.css.map",
-    "main.c9d63c59.js.map": "/EquinoxDialogue/static/js/main.c9d63c59.js.map",
+    "main.62559a01.css.map": "/EquinoxDialogue/static/css/main.62559a01.css.map",
+    "main.f9e89489.js.map": "/EquinoxDialogue/static/js/main.f9e89489.js.map",
     "787.5e7017bb.chunk.js.map": "/EquinoxDialogue/static/js/787.5e7017bb.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a135d08c.css",
-    "static/js/main.c9d63c59.js"
+    "static/css/main.62559a01.css",
+    "static/js/main.f9e89489.js"
   ]
 }
