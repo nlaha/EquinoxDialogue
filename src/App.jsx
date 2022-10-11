@@ -1,18 +1,20 @@
 import React from "react";
 import { NodeEditor } from "flume";
 import config from "./config";
-import Button from "@mui/joy/Button";
-// import container
-import Container from "@mui/joy/Container";
 import { CssVarsProvider } from "@mui/joy/styles";
+
 import Typography from "@mui/joy/Typography";
 import Alert from "@mui/joy/Alert";
 import IconButton from "@mui/joy/IconButton";
 import WarningIcon from "@mui/icons-material/Warning";
 import CloseIcon from "@mui/icons-material/Close";
+import AppHeader from "./AppHeader";
 
 // use effect import
 import { useEffect, useRef, useState } from "react";
+import { Chip, Divider } from "@mui/joy";
+
+export var globalGameplayEvents = [];
 
 const App = () => {
   const nodeEditor = React.useRef();
@@ -24,6 +26,7 @@ const App = () => {
   const [filename, setFilename] = useState("untitled.dlg.src");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [gameplayEvents, setGameplayEvents] = useState([]);
 
   // re render editor
   useEffect(() => {
@@ -35,7 +38,12 @@ const App = () => {
     }
   }, [nodes]);
 
-  const handleChange = (e) => {
+  const onGameplayEventsChange = (events) => {
+    setGameplayEvents(events);
+    globalGameplayEvents = events;
+  };
+
+  const onFileChange = (e) => {
     const fileReader = new FileReader();
     // get file name
     setFilename(e.target.files[0].name);
@@ -219,127 +227,116 @@ const App = () => {
   };
 
   return (
-    <div style={{ height: "100%" }}>
-      <div
-        style={{
-          zIndex: 100,
-          position: "absolute",
-          bottom: 15,
-          right: 15,
-          opacity: 0.8,
-        }}
-      >
-        {
-          // show alert
-          showAlert && (
-            <Alert
-              startDecorator={<WarningIcon sx={{ mx: 0.5 }} />}
-              variant="solid"
-              color="danger"
-              endDecorator={
-                <IconButton
-                  sx={{ ml: 1 }}
-                  variant="soft"
-                  size="sm"
-                  color="danger"
-                  onClick={() => {
-                    setShowAlert(false);
-                  }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              }
-            >
-              <Typography sx={{ color: "white" }} fontWeight="md">
-                {alertMessage}
-              </Typography>
-            </Alert>
-          )
-        }
-      </div>
-      {showNodeEditor && (
-        <NodeEditor
-          ref={nodeEditor}
-          portTypes={config.portTypes}
-          nodeTypes={config.nodeTypes}
-          initialComments={[]}
-          nodes={nodes}
-          onChange={setNodesInEditor}
-          defaultNodes={[
-            {
-              type: "dialogue_entry",
-              x: 0,
-              y: 0,
-            },
-          ]}
+    <CssVarsProvider>
+      <div style={{ height: "100%" }}>
+        <div
+          style={{
+            zIndex: 100,
+            position: "absolute",
+            bottom: 15,
+            right: 15,
+            opacity: 0.8,
+          }}
+        >
+          {
+            // show alert
+            showAlert && (
+              <Alert
+                startDecorator={<WarningIcon sx={{ mx: 0.5 }} />}
+                variant="solid"
+                color="danger"
+                endDecorator={
+                  <IconButton
+                    sx={{ ml: 1 }}
+                    variant="soft"
+                    size="sm"
+                    color="danger"
+                    onClick={() => {
+                      setShowAlert(false);
+                    }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                }
+              >
+                <Typography sx={{ color: "white" }} fontWeight="md">
+                  {alertMessage}
+                </Typography>
+              </Alert>
+            )
+          }
+        </div>
+        {showNodeEditor && (
+          <NodeEditor
+            ref={nodeEditor}
+            portTypes={config.portTypes}
+            nodeTypes={config.nodeTypes}
+            initialComments={[]}
+            nodes={nodes}
+            onChange={setNodesInEditor}
+            renderNodeHeader={(Wrapper, nodeType, actions) => {
+              return (
+                <Wrapper>
+                  {nodeType.type === "dialogue_entry" ? (
+                    <>
+                      <Typography>{nodeType.label}</Typography>
+                      <Divider />
+                      <Typography
+                        variant="soft"
+                        color="primary"
+                        width="90%"
+                        py={0.5}
+                        px={0.5}
+                        m={0.5}
+                        borderRadius="xs"
+                        display="inline-flex"
+                        fontSize="xs"
+                      >
+                        Root Node
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Typography>{nodeType.label}</Typography>
+                    </>
+                  )}
+                </Wrapper>
+              );
+            }}
+            defaultNodes={[
+              {
+                type: "dialogue_entry",
+                x: 0,
+                y: 0,
+              },
+            ]}
+          />
+        )}
+        <AppHeader
+          newNodes={newNodes}
+          saveNodes={saveNodes}
+          openFileDialog={openFileDialog}
+          exportNodes={exportNodes}
+          onFileChange={onFileChange}
+          filename={filename}
+          onEventsChange={onGameplayEventsChange}
         />
-      )}
-      <div className="header">
-        <CssVarsProvider>
-          <Container sx={{ position: "fixed", top: 0 }} maxWidth="false">
-            <Button
-              sx={{ m: 1, float: "right" }}
-              variant="solid"
-              color="danger"
-              onClick={newNodes}
-            >
-              New
-            </Button>
-            <Button
-              sx={{ m: 1 }}
-              variant="solid"
-              color="success"
-              onClick={saveNodes}
-            >
-              Save
-            </Button>
-            <Button
-              sx={{ m: 1 }}
-              variant="solid"
-              color="primary"
-              onClick={exportNodes}
-            >
-              Export
-            </Button>
-            <Button
-              sx={{ m: 1 }}
-              variant="solid"
-              color="warning"
-              onClick={openFileDialog}
-            >
-              Load
-              <input
-                id="load-file"
-                style={{ display: "none" }}
-                type="file"
-                onChange={handleChange}
-                accept=".dlg.src"
-              />
-            </Button>
-            <Typography sx={{ color: "white", fontSize: 24 }}>
-              Equinox Dialogue
-            </Typography>
-            <Typography sx={{ color: "white", fontSize: 16 }}>
-              Editing {filename}
-            </Typography>
-          </Container>
-        </CssVarsProvider>
+        <Typography
+          sx={{
+            color: "white",
+            fontSize: 16,
+            position: "absolute",
+            bottom: 15,
+            left: 15,
+          }}
+        >
+          Created by{" "}
+          <a target="_blank" rel="noopener noreferrer" href="https://nlaha.com">
+            Nathan Laha
+          </a>
+        </Typography>
       </div>
-      <Typography
-        sx={{
-          color: "white",
-          fontSize: 16,
-          position: "absolute",
-          bottom: 15,
-          left: 15,
-        }}
-      >
-        Created by{" "}
-        <a target="_blank" rel="noopener noreferrer" href="https://nlaha.com">
-          Nathan Laha
-        </a>
-      </Typography>
-    </div>
+    </CssVarsProvider>
   );
 };
 
