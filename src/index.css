@@ -8,6 +8,51 @@ body {
   margin: 0;
 }
 
+/* Define styles for the default root window element */
+:root {
+  --background-color-primary: #ffffff;
+  --background-color-secondary: #efefef;
+  --background-color-tertiary: #dbdbdb;
+  --text-primary-color: #111111;
+}
+
+/* Define styles for the root window with dark - mode preference */
+:root.dark-theme {
+  --background-color-primary: #3e3e3e;
+    --background-color-secondary: #111111;
+    --background-color-tertiary: #282828;
+    --text-primary-color: #ffffff;
+}
+
 #root {
   height: 100% !important;
+}
+
+[data-flume-component="stage"] {
+  background: var(--background-color-secondary) !important;
+}
+
+[data-flume-component="node"] {
+  background: var(--background-color-primary) !important;
+}
+
+[data-flume-component="node"] {
+  background: var(--background-color-primary) !important;
+}
+
+[data-flume-component="node-header"] {
+  background: var(--background-color-tertiary)!important;
+}
+
+[data-flume-component="text-input-textarea"] {
+  background: var(--background-color-tertiary)!important;
+}
+
+[data-flume-component="text-input-number"] {
+  background: var(--background-color-tertiary)!important;
+}
+
+/* ports */
+[data-flume-component="ports"] {
+  color: var(--text-primary-color) !important;
 }
