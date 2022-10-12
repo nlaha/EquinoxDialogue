@@ -1,6 +1,4 @@
 import React from "react";
-import { NodeEditor } from "flume";
-import config from "./config";
 import { CssVarsProvider } from "@mui/joy/styles";
 
 import Typography from "@mui/joy/Typography";
@@ -9,38 +7,109 @@ import IconButton from "@mui/joy/IconButton";
 import WarningIcon from "@mui/icons-material/Warning";
 import CloseIcon from "@mui/icons-material/Close";
 import AppHeader from "./AppHeader";
+import Box from "@mui/joy/Box";
+// use memo
+import { useMemo } from "react";
+
+// import nodes
+import DialogueEntryNode from "./Nodes/DialogueEntry";
+import DialogueEventNode from "./Nodes/DialogueEvent";
+
+// providers
+import { NodePaletteProvider } from "./Providers";
 
 // use effect import
 import { useEffect, useRef, useState } from "react";
 import { Chip, Divider } from "@mui/joy";
 
-export var globalGameplayEvents = [];
+// react flow imports
+import { useCallback } from "react";
+import ReactFlow, {
+  MiniMap,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  ReactFlowProvider,
+  useReactFlow,
+} from "reactflow";
+// 👇 you need to import the reactflow styles
+import "reactflow/dist/style.css";
+
+const initialEdges = [];
+const initialNodes = [];
+
+// create global contexts
+export const NodePaletteContext = React.createContext({ node_types: {} });
+
+let id = 0;
+const getId = () => `node_${id++}`;
 
 const App = () => {
-  const nodeEditor = React.useRef();
   // json
   const [json, setJson] = React.useState(null);
-  const [nodes, setNodes] = React.useState();
   const [nodesInEditor, setNodesInEditor] = useState();
   const [showNodeEditor, setShowNodeEditor] = useState(true);
   const [filename, setFilename] = useState("untitled.dlg.src");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [gameplayEvents, setGameplayEvents] = useState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const reactFlowWrapper = useRef(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const { setViewport } = useReactFlow();
 
-  // re render editor
-  useEffect(() => {
-    if (nodes !== undefined) {
-      setShowNodeEditor(false);
-      setTimeout(() => {
-        setShowNodeEditor(true);
-      }, 1);
-    }
-  }, [nodes]);
+  // define node types
+  const nodeTypes = useMemo(
+    () => ({
+      dialogue_entry: DialogueEntryNode,
+      dialogue_event: DialogueEventNode,
+    }),
+    []
+  );
+
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
+
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+      const type = event.dataTransfer.getData("application/reactflow");
+
+      // check if the dropped element is valid
+      if (typeof type === "undefined" || !type) {
+        return;
+      }
+
+      const position = reactFlowInstance.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
+      const newNode = {
+        id: getId(),
+        type,
+        position,
+        data: { label: `${type} node` },
+      };
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance]
+  );
 
   const onGameplayEventsChange = (events) => {
     setGameplayEvents(events);
-    globalGameplayEvents = events;
   };
 
   const onFileChange = (e) => {
@@ -65,48 +134,48 @@ const App = () => {
     };
   };
 
-  const recurse_get_node = (id, nodes) => {
-    const get_responses = (node, nodes) => {
+  const recurseTree = (id, node_obj) => {
+    const get_responses = (root_id, node_obj) => {
+      // get node
+      const root_node = node_obj["nodes"].find((node) => node.id === root_id);
       let responses = [];
       // find keys in node.inputData that contain player_response_
-      if (node.type == "dialogue_event") {
-        for (let key in node.inputData) {
-          if (key.includes("player_response_")) {
-            let output_key = key.replace("player_response_", "player_pick_");
+      if (root_node.type === "dialogue_event") {
+        let index = 0;
+        root_node.data.responses.forEach((response) => {
+          // get edge that connects to this response
+          const edge = node_obj["edges"].find(
+            (edge) =>
+              edge.sourceHandle === `response_${index}` &&
+              edge.source === root_id
+          );
 
-            if (node.connections.outputs[output_key] !== undefined) {
+          if (edge !== undefined) {
+            // get node that the edge connects to
+            const target_node = node_obj["nodes"].find(
+              (node) => node.id === edge.target
+            );
+
+            if (target_node !== undefined) {
               responses.push({
                 type: "choice_response",
-                text: node.inputData[key].string,
-                next_node: recurse_get_node(
-                  node.connections.outputs[output_key][0].nodeId,
-                  nodes
-                ),
+                text: response,
+                next_node: recurseTree(target_node.id, node_obj),
               });
             } else {
               responses.push({
                 type: "end_response",
-                text: node.inputData[key].string,
+                text: response,
               });
             }
+          } else {
+            responses.push({
+              type: "end_response",
+              text: response,
+            });
           }
-        }
-      } else if (node.type == "dialogue_event_yes_no") {
-        responses.push({
-          type: "choice_response",
-          text: "No",
-          next_node: recurse_get_node(
-            node.connections.outputs.player_pick_0[0].nodeId,
-            nodes
-          ),
-        });
-        responses.push({
-          type: "choice_response",
-          text: "Yes",
-          next_node: recurse_get_node(
-            node.connections.outputs.player_pick_1[0].nodeId,
-            nodes
-          ),
+
+          index++;
         });
       }
 
@@ -120,38 +189,43 @@ const App = () => {
       return responses;
     };
 
-    let node = nodes[id];
-    if (node === undefined) {
+    const root_node = node_obj["nodes"].find((node) => node.id === id);
+    if (root_node === undefined) {
       return "undefined";
     } else {
       return {
-        id: node.id,
+        id: root_node.id,
         type: "root",
-        npc_text: node.inputData.npc_text.string,
-        responses: get_responses(node, nodes),
+        npc_text: root_node.data.npc_text,
+        responses: get_responses(root_node.id, node_obj),
       };
     }
   };
 
+  const findOutputs = (id, node_obj) => {
+    let outputs = [];
+    node_obj["edges"].forEach((edge) => {
+      if (edge.source === id) {
+        outputs.push(edge.target);
+      }
+    });
+    return outputs;
+  };
+
   const exportNodes = () => {
-    const nodes = nodeEditor.current.getNodes();
-
+    let node_obj = reactFlowInstance.toObject();
     let node_tree = {};
-
     // iterate key and value
-    for (const [key, value] of Object.entries(nodes)) {
-      if (value.root == true) {
+    for (const [key, value] of Object.entries(node_obj["nodes"])) {
+      if (value.type == "dialogue_entry") {
         node_tree = {
           id: value.id,
-          npc_name: value.inputData.npc_name.string,
+          npc_name: value.data.npc_name,
           type: value.type,
           responses: [
             {
               type: "none",
-              next: recurse_get_node(
-                value.connections.outputs.flow[0].nodeId,
-                nodes
-              ),
+              next: recurseTree(findOutputs(value.id, node_obj)[0], node_obj),
             },
           ],
         };
@@ -160,7 +234,6 @@ const App = () => {
 
     // serialize tree
     const json = JSON.stringify(node_tree, null, 2);
-
     // save json to file
     const element = document.createElement("a");
     const file = new Blob([json], { type: "text/plain" });
@@ -171,21 +244,37 @@ const App = () => {
   };
 
   const saveNodes = () => {
-    const nodes = nodeEditor.current.getNodes();
+    if (reactFlowInstance) {
+      const flow = reactFlowInstance.toObject();
 
-    // serialize nodes as JSON
-    const json = JSON.stringify(nodes, null, 2);
+      // serialize nodes as JSON
+      const json = JSON.stringify(flow, null, 2);
+      // set json
+      setJson(json);
+      // save json to file
+      const element = document.createElement("a");
+      const file = new Blob([json], { type: "text/plain" });
+      element.href = URL.createObjectURL(file);
+      element.download = filename;
+      document.body.appendChild(element); // Required for this to work in FireFox
+      element.click();
+    }
+  };
 
-    // set json
-    setJson(json);
+  const loadNodes = (json) => {
+    const restoreFlow = async () => {
+      const flow = JSON.parse(json);
 
-    // save json to file
-    const element = document.createElement("a");
-    const file = new Blob([json], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = filename;
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        setViewport({ x, y, zoom });
+      }
+    };
+
+    restoreFlow();
+    document.getElementById("load-file").value = "";
   };
 
   const newNodes = () => {
@@ -195,31 +284,9 @@ const App = () => {
       setNodes([]);
       // set filename to untitled
       setFilename("untitled.dlg.src");
-
       // clear file upload
       document.getElementById("load-file").value = "";
     }
-  };
-
-  const loadNodes = (file) => {
-    // parse
-    let nodes_new = [];
-    try {
-      nodes_new = JSON.parse(file);
-    } catch (e) {
-      // show alert
-      setAlertMessage("Error loading file! Invalid DLG file data");
-      setShowAlert(true);
-      return;
-    }
-
-    console.log("loading nodes");
-
-    // load nodes
-    setNodes(nodes_new);
-
-    // clear file upload
-    document.getElementById("load-file").value = "";
   };
 
   const openFileDialog = () => {
@@ -228,114 +295,94 @@ const App = () => {
 
   return (
     <CssVarsProvider>
-      <div style={{ height: "100%" }}>
-        <div
-          style={{
-            zIndex: 100,
-            position: "absolute",
-            bottom: 15,
-            right: 15,
-            opacity: 0.8,
-          }}
-        >
-          {
-            // show alert
-            showAlert && (
-              <Alert
-                startDecorator={<WarningIcon sx={{ mx: 0.5 }} />}
-                variant="solid"
-                color="danger"
-                endDecorator={
-                  <IconButton
-                    sx={{ ml: 1 }}
-                    variant="soft"
-                    size="sm"
-                    color="danger"
-                    onClick={() => {
-                      setShowAlert(false);
-                    }}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                }
-              >
-                <Typography sx={{ color: "white" }} fontWeight="md">
-                  {alertMessage}
-                </Typography>
-              </Alert>
-            )
-          }
-        </div>
-        {showNodeEditor && (
-          <NodeEditor
-            ref={nodeEditor}
-            portTypes={config.portTypes}
-            nodeTypes={config.nodeTypes}
-            initialComments={[]}
-            nodes={nodes}
-            onChange={setNodesInEditor}
-            renderNodeHeader={(Wrapper, nodeType, actions) => {
-              return (
-                <Wrapper>
-                  {nodeType.type === "dialogue_entry" ? (
-                    <>
-                      <Typography>{nodeType.label}</Typography>
-                      <Divider />
-                      <Typography
-                        variant="soft"
-                        color="primary"
-                        width="90%"
-                        py={0.5}
-                        px={0.5}
-                        m={0.5}
-                        borderRadius="xs"
-                        display="inline-flex"
-                        fontSize="xs"
-                      >
-                        Root Node
-                      </Typography>
-                    </>
-                  ) : (
-                    <>
-                      <Typography>{nodeType.label}</Typography>
-                    </>
-                  )}
-                </Wrapper>
-              );
+      <NodePaletteProvider value={{ node_types: nodeTypes }}>
+        <div style={{ height: "100%" }} ref={reactFlowWrapper}>
+          <div
+            style={{
+              pointerEvents: "auto",
+              zIndex: 200,
+              position: "absolute",
+              bottom: 15,
+              right: 15,
+              opacity: 0.8,
             }}
-            defaultNodes={[
-              {
-                type: "dialogue_entry",
-                x: 0,
-                y: 0,
-              },
-            ]}
+          >
+            {
+              // show alert
+              showAlert && (
+                <Alert
+                  startDecorator={<WarningIcon sx={{ mx: 0.5 }} />}
+                  variant="solid"
+                  color="danger"
+                  endDecorator={
+                    <IconButton
+                      sx={{ ml: 1 }}
+                      variant="soft"
+                      size="sm"
+                      color="danger"
+                      onClick={() => {
+                        setShowAlert(false);
+                      }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  }
+                >
+                  <Typography sx={{ color: "white" }} fontWeight="md">
+                    {alertMessage}
+                  </Typography>
+                </Alert>
+              )
+            }
+          </div>
+          {showNodeEditor && (
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              onInit={setReactFlowInstance}
+              nodeTypes={nodeTypes}
+              zoomOnDoubleClick={false}
+              deleteKeyCode="Delete"
+              fitView
+            >
+              <Controls />
+              <Background />
+            </ReactFlow>
+          )}
+          <AppHeader
+            newNodes={newNodes}
+            saveNodes={saveNodes}
+            openFileDialog={openFileDialog}
+            exportNodes={exportNodes}
+            onFileChange={onFileChange}
+            filename={filename}
+            onEventsChange={onGameplayEventsChange}
           />
-        )}
-        <AppHeader
-          newNodes={newNodes}
-          saveNodes={saveNodes}
-          openFileDialog={openFileDialog}
-          exportNodes={exportNodes}
-          onFileChange={onFileChange}
-          filename={filename}
-          onEventsChange={onGameplayEventsChange}
-        />
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: 16,
-            position: "absolute",
-            bottom: 15,
-            left: 15,
-          }}
-        >
-          Created by{" "}
-          <a target="_blank" rel="noopener noreferrer" href="https://nlaha.com">
-            Nathan Laha
-          </a>
-        </Typography>
-      </div>
+          <Typography
+            className="footer"
+            sx={{
+              fontSize: 16,
+              position: "absolute",
+              bottom: 15,
+              left: 65,
+            }}
+          >
+            Created by{" "}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://nlaha.com"
+            >
+              Nathan Laha
+            </a>
+          </Typography>
+        </div>
+      </NodePaletteProvider>
     </CssVarsProvider>
   );
 };
