@@ -11,48 +11,123 @@ body {
 /* Define styles for the default root window element */
 :root {
   --background-color-primary: #ffffff;
-  --background-color-secondary: #efefef;
+  --background-color-secondary: #dfdfdf;
   --background-color-tertiary: #dbdbdb;
   --text-primary-color: #111111;
+  --accent-color: #095bba;
+  --accent-color-dark: #083266;
+  --accent-color-light: #78b7ff;
+  --shadow-accent-color: #096BDE58;
+  --input-node-color: #ffd260;
+  --connection-color: #191919;
 }
 
 /* Define styles for the root window with dark - mode preference */
 :root.dark-theme {
-  --background-color-primary: #3e3e3e;
+  --background-color-primary: #6f6f6f;
     --background-color-secondary: #111111;
     --background-color-tertiary: #282828;
     --text-primary-color: #ffffff;
+    --accent-color: #095bba;
+    --accent-color-dark: #083266;
+    --accent-color-light: #1984ff;
+    --shadow-accent-color: #096BDE58;
+    --input-node-color: #a98f4c;
+    --connection-color: #efefef;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 200;
+}
+
+button {
+  pointer-events: all;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: auto;
+  z-index: 200;
+}
+
+.react-flow {
+  background: var(--background-color-secondary);
+}
+
+.react-flow__controls button
+{
+  color: var(--text-primary-color);
+  background: var(--background-color-primary);
+  border: 1px solid var(--background-color-secondary);
+  border-radius: 4px;
+}
+
+.react-flow__controls button:hover
+{
+  background: var(--accent-color);
+}
+
+.react-flow__edge-path {
+  stroke-width: 3px !important;
+  stroke: var(--connection-color) !important;
+}
+
+.react-flow__edge:hover > .react-flow__edge-path {
+  stroke: var(--accent-color) !important;
+}
+
+.react-flow__edge.selected > .react-flow__edge-path {
+  stroke: var(--accent-color-light) !important;
+}
+
+.react-flow__connection-path
+{
+  stroke-width: 2px !important;
+  stroke: var(--connection-color) !important;
+}
+
+.react-flow__node {
+  background: transparent !important;
+  color: var(--text-primary-color) !important;
+}
+
+.node_palette_item {
+  border: 2px solid var(--background-color-tertiary) !important;
+  margin: 0.2rem !important;
+  border-radius: 4px !important;
+  pointer-events: all;
+}
+
+.node_palette_item:hover {
+  border: 2px solid var(--accent-color-dark) !important;
+}
+
+.react-flow__node > div {
+  border: 2px solid var(--background-color-tertiary) !important;
+}
+
+.react-flow__node:hover > div {
+  border: 2px solid var(--accent-color-dark) !important;
+}
+
+.react-flow__node.selected > div {
+  border: 2px solid var(--accent-color) !important;
+}
+
+.react-flow__handle {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: var(--text-primary-color) !important;
 }
 
 #root {
   height: 100% !important;
-}
-
-[data-flume-component="stage"] {
-  background: var(--background-color-secondary) !important;
-}
-
-[data-flume-component="node"] {
-  background: var(--background-color-primary) !important;
-}
-
-[data-flume-component="node"] {
-  background: var(--background-color-primary) !important;
-}
-
-[data-flume-component="node-header"] {
-  background: var(--background-color-tertiary)!important;
-}
-
-[data-flume-component="text-input-textarea"] {
-  background: var(--background-color-tertiary)!important;
-}
-
-[data-flume-component="text-input-number"] {
-  background: var(--background-color-tertiary)!important;
-}
-
-/* ports */
-[data-flume-component="ports"] {
-  color: var(--text-primary-color) !important;
 }

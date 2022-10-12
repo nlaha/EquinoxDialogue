@@ -6,7 +6,8 @@ What is "Equinox Engine"? It's something I'm working on that isn't quite ready t
 
 # Screenshots
 
-![image](https://user-images.githubusercontent.com/10292944/194968612-27b5dcdd-5b97-456a-8f1e-b8d3cdb524f5.png)
+![Web capture_11-10-2022_21449_localhost](https://user-images.githubusercontent.com/10292944/195253359-f405b6f5-ea84-4045-8246-00c09984dca4.jpeg)
+![Web capture_11-10-2022_214326_localhost](https://user-images.githubusercontent.com/10292944/195253374-25d80153-0e6b-4e5c-b33f-8a7d3fe599a8.jpeg)
 
 # Usage
 
