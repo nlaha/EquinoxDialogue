@@ -1,4 +1,4 @@
-![logo_dialogue_rounded](https://user-images.githubusercontent.com/10292944/194968131-6b2f5ad0-f653-450c-9f19-a643aeb3158b.png)
+![logo_dialogue_rounded](https://user-images.githubusercontent.com/10292944/195273482-5c61364c-3f46-4435-8977-0027c2cad988.png)
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/nlaha/EquinoxDialogue/Node.js%20CI?label=Node.js%20CI)
 ![GitHub issues](https://img.shields.io/github/issues/nlaha/EquinoxDialogue)
