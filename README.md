@@ -1,5 +1,10 @@
 ![logo_dialogue_rounded](https://user-images.githubusercontent.com/10292944/194968131-6b2f5ad0-f653-450c-9f19-a643aeb3158b.png)
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/nlaha/EquinoxDialogue/Node.js%20CI?label=Node.js%20CI)
+![GitHub issues](https://img.shields.io/github/issues/nlaha/EquinoxDialogue)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/nlaha/EquinoxDialogue)
+
+
 Equinox dialogue is a web-based dialogue tree builder for EquinoxEngine. It is built using React, please read the instructions below if you are a contributor.
 
 What is "Equinox Engine"? It's something I'm working on that isn't quite ready to be open sourced yet!
