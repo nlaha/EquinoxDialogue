@@ -29,9 +29,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
       - run: yarn set version berry
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: mskelton/setup-yarn@v1
         with:
-          cmd: install # will run `yarn install` command
+        flags: --immutable-cache
       - run: npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

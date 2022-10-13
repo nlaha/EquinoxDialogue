@@ -2,7 +2,7 @@
   "name": "equinox-dialogue",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nlaha.github.io/EquinoxDialogue",
+  "homepage": "./",
   "author": "Nathan Laha",
   "description": "A dialogue tree builder for Equinox Engine",
   "main": "./public/electron.js",
@@ -61,8 +61,12 @@
     "flume@^0.8.0": "patch:flume@npm%3A0.8.0#./.yarn/patches/flume-npm-0.8.0-e9f24da865.patch"
   },
   "devDependencies": {
+    "concurrently": "^7.4.0",
+    "cross-env": "^7.0.3",
+    "electron": "^21.1.1",
     "electron-builder": "^23.6.0",
-    "electron": "^21.1.1"
+    "electronmon": "^2.0.2",
+    "wait-on": "^6.0.1"
   },
   "build": {
     "appId": "com.nlaha.equinoxdialogue",
