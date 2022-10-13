@@ -73,5 +73,17 @@ app.on("window-all-closed", function () {
   }
 });
 
+app.on("close", function (e) {
+  const choice = require("electron").dialog.showMessageBoxSync(this, {
+    type: "question",
+    buttons: ["Yes", "No"],
+    title: "Confirm",
+    message: "Are you sure you want to quit?",
+  });
+  if (choice === 1) {
+    e.preventDefault();
+  }
+});
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

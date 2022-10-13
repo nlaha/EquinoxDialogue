@@ -29,9 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
       - run: yarn set version berry
-      - uses: mskelton/setup-yarn@v1
-        with:
-          flags: --immutable-cache
+      - run: yarn install --frozen-lockfile
       - run: npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
