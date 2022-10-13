@@ -65,7 +65,7 @@ const App = () => {
   const getId = (node_count) => {
     // increment id
     console.log("incrementing id: " + node_count);
-    return `node_${node_count + 1}`;
+    return `node_${node_count}`;
   };
 
   // define node types
@@ -105,7 +105,7 @@ const App = () => {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
-      const id = getId(reactFlowInstance.getNodes().length - 1);
+      const id = getId(reactFlowInstance.getNodes().length);
       const newNode = {
         id: id,
         type,
