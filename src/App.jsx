@@ -312,6 +312,16 @@ const App = () => {
         onGameplayEventsChange(flow.gameplay_events);
       }
 
+      // count nodes
+      let node_count = 0;
+      for (const [key, value] of Object.entries(flow["nodes"])) {
+        if (value.type === "dialogue_event") {
+          node_count++;
+        }
+      }
+
+      id = node_count - 1;
+
       // clear nodes
       setNodes([]);
       setEdges([]);
