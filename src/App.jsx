@@ -14,9 +14,12 @@ import { useMemo } from "react";
 // import nodes
 import DialogueEntryNode from "./Nodes/DialogueEntry";
 import DialogueEventNode from "./Nodes/DialogueEvent";
+import GameplayEventNode from "./Nodes/GameplayEvent";
+import JumpNode from "./Nodes/JumpNode";
 
 // providers
 import { NodePaletteProvider } from "./Providers";
+import { GlobalDataProvider } from "./Providers";
 
 // use effect import
 import { useEffect, useRef, useState } from "react";
@@ -37,14 +40,16 @@ import ReactFlow, {
 // 👇 you need to import the reactflow styles
 import "reactflow/dist/style.css";
 
+let id = 0;
+const getId = () => `node_${id++}`;
+
 const initialEdges = [];
+
+let init_id = getId();
 const initialNodes = [];
 
 // create global contexts
 export const NodePaletteContext = React.createContext({ node_types: {} });
-
-let id = 0;
-const getId = () => `node_${id++}`;
 
 const App = () => {
   // json
@@ -66,6 +71,8 @@ const App = () => {
     () => ({
       dialogue_entry: DialogueEntryNode,
       dialogue_event: DialogueEventNode,
+      gameplay_event: GameplayEventNode,
+      jump_node: JumpNode,
     }),
     []
   );
@@ -96,11 +103,12 @@ const App = () => {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+      const id = getId();
       const newNode = {
-        id: getId(),
+        id: id,
         type,
         position,
-        data: { label: `${type} node` },
+        data: { id: id },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -139,7 +147,7 @@ const App = () => {
       // get node
       const root_node = node_obj["nodes"].find((node) => node.id === root_id);
       let responses = [];
-      // find keys in node.inputData that contain player_response_
+
       if (root_node.type === "dialogue_event") {
         let index = 0;
         root_node.data.responses.forEach((response) => {
@@ -177,6 +185,25 @@ const App = () => {
 
           index++;
         });
+      } else if (root_node.type === "gameplay_event") {
+        // get the output edge
+        const edge = node_obj["edges"].find(
+          (edge) => edge.source === root_node.id
+        );
+
+        if (edge !== undefined) {
+          const next_node_id = edge.target;
+
+          responses.push({
+            type: "pass",
+            next_node: recurseTree(next_node_id, node_obj),
+          });
+        } else {
+          responses.push({
+            type: "end_response",
+            text: "Exit",
+          });
+        }
       }
 
       if (responses.length === 0) {
@@ -193,12 +220,23 @@ const App = () => {
     if (root_node === undefined) {
       return "undefined";
     } else {
-      return {
+      let new_node = {
         id: root_node.id,
-        type: "root",
-        npc_text: root_node.data.npc_text,
+        type: root_node.type,
         responses: get_responses(root_node.id, node_obj),
       };
+
+      if (new_node.type === "dialogue_event") {
+        new_node.npc_text = root_node.data.npc_text;
+      }
+      if (new_node.type === "gameplay_event") {
+        new_node.event = root_node.data.event;
+      }
+      if (new_node.type === "jump_node") {
+        new_node.jump_to = root_node.data.jump;
+      }
+
+      return new_node;
     }
   };
 
@@ -232,6 +270,8 @@ const App = () => {
       }
     }
 
+    node_tree["gameplay_events"] = gameplayEvents;
+
     // serialize tree
     const json = JSON.stringify(node_tree, null, 2);
     // save json to file
@@ -246,6 +286,8 @@ const App = () => {
   const saveNodes = () => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
+
+      flow["gameplay_events"] = gameplayEvents;
 
       // serialize nodes as JSON
       const json = JSON.stringify(flow, null, 2);
@@ -264,6 +306,15 @@ const App = () => {
   const loadNodes = (json) => {
     const restoreFlow = async () => {
       const flow = JSON.parse(json);
+
+      // check if gameplay events are present
+      if (flow["gameplay_events"] !== undefined) {
+        onGameplayEventsChange(flow.gameplay_events);
+      }
+
+      // clear nodes
+      setNodes([]);
+      setEdges([]);
 
       if (flow) {
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
@@ -295,94 +346,96 @@ const App = () => {
 
   return (
     <CssVarsProvider>
-      <NodePaletteProvider value={{ node_types: nodeTypes }}>
-        <div style={{ height: "100%" }} ref={reactFlowWrapper}>
-          <div
-            style={{
-              pointerEvents: "auto",
-              zIndex: 200,
-              position: "absolute",
-              bottom: 15,
-              right: 15,
-              opacity: 0.8,
-            }}
-          >
-            {
-              // show alert
-              showAlert && (
-                <Alert
-                  startDecorator={<WarningIcon sx={{ mx: 0.5 }} />}
-                  variant="solid"
-                  color="danger"
-                  endDecorator={
-                    <IconButton
-                      sx={{ ml: 1 }}
-                      variant="soft"
-                      size="sm"
-                      color="danger"
-                      onClick={() => {
-                        setShowAlert(false);
-                      }}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                  }
-                >
-                  <Typography sx={{ color: "white" }} fontWeight="md">
-                    {alertMessage}
-                  </Typography>
-                </Alert>
-              )
-            }
+      <GlobalDataProvider value={{ gameplay_events: gameplayEvents }}>
+        <NodePaletteProvider value={{ node_types: nodeTypes }}>
+          <div style={{ height: "100%" }} ref={reactFlowWrapper}>
+            <div
+              style={{
+                pointerEvents: "auto",
+                zIndex: 200,
+                position: "absolute",
+                bottom: 15,
+                right: 15,
+                opacity: 0.8,
+              }}
+            >
+              {
+                // show alert
+                showAlert && (
+                  <Alert
+                    startDecorator={<WarningIcon sx={{ mx: 0.5 }} />}
+                    variant="solid"
+                    color="danger"
+                    endDecorator={
+                      <IconButton
+                        sx={{ ml: 1 }}
+                        variant="soft"
+                        size="sm"
+                        color="danger"
+                        onClick={() => {
+                          setShowAlert(false);
+                        }}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    }
+                  >
+                    <Typography sx={{ color: "white" }} fontWeight="md">
+                      {alertMessage}
+                    </Typography>
+                  </Alert>
+                )
+              }
+            </div>
+            {showNodeEditor && (
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+                onInit={setReactFlowInstance}
+                nodeTypes={nodeTypes}
+                zoomOnDoubleClick={false}
+                deleteKeyCode="Delete"
+                fitView
+              >
+                <Controls />
+                <Background />
+              </ReactFlow>
+            )}
+            <AppHeader
+              newNodes={newNodes}
+              saveNodes={saveNodes}
+              openFileDialog={openFileDialog}
+              exportNodes={exportNodes}
+              onFileChange={onFileChange}
+              filename={filename}
+              onEventsChange={onGameplayEventsChange}
+            />
+            <Typography
+              className="footer"
+              sx={{
+                fontSize: 16,
+                position: "absolute",
+                bottom: 15,
+                left: 65,
+              }}
+            >
+              Created by{" "}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://nlaha.com"
+              >
+                Nathan Laha
+              </a>
+            </Typography>
           </div>
-          {showNodeEditor && (
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-              onInit={setReactFlowInstance}
-              nodeTypes={nodeTypes}
-              zoomOnDoubleClick={false}
-              deleteKeyCode="Delete"
-              fitView
-            >
-              <Controls />
-              <Background />
-            </ReactFlow>
-          )}
-          <AppHeader
-            newNodes={newNodes}
-            saveNodes={saveNodes}
-            openFileDialog={openFileDialog}
-            exportNodes={exportNodes}
-            onFileChange={onFileChange}
-            filename={filename}
-            onEventsChange={onGameplayEventsChange}
-          />
-          <Typography
-            className="footer"
-            sx={{
-              fontSize: 16,
-              position: "absolute",
-              bottom: 15,
-              left: 65,
-            }}
-          >
-            Created by{" "}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://nlaha.com"
-            >
-              Nathan Laha
-            </a>
-          </Typography>
-        </div>
-      </NodePaletteProvider>
+        </NodePaletteProvider>
+      </GlobalDataProvider>
     </CssVarsProvider>
   );
 };

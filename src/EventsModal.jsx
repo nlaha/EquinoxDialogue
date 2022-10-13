@@ -14,8 +14,13 @@ import { Grid, TextField } from "@mui/joy";
 
 export default function EventsModal(props) {
   // events storage
-  const [events, setEvents] = React.useState([]);
+  const [events, setEvents] = React.useState(props.events);
   const [event, setEvent] = React.useState("");
+
+  // set events when props.events changes
+  React.useEffect(() => {
+    setEvents(props.events);
+  }, [props.events]);
 
   function handleChange(event) {
     // track input field's state
@@ -26,7 +31,6 @@ export default function EventsModal(props) {
     if (event !== "") {
       // add item
       setEvents([...events, event]);
-      console.log(events);
       // clear input field
       setEvent("");
 

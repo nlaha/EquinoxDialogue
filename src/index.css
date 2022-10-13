@@ -58,6 +58,13 @@ button {
   z-index: 200;
 }
 
+.react-flow__handle-connecting {
+
+}
+.react-flow__handle {
+  background-color: var(--text-primary-color) !important;
+}
+
 .react-flow {
   background: var(--background-color-secondary);
 }
@@ -90,7 +97,7 @@ button {
 
 .react-flow__connection-path
 {
-  stroke-width: 2px !important;
+  stroke-width: 3px !important;
   stroke: var(--connection-color) !important;
 }
 
@@ -123,9 +130,9 @@ button {
 }
 
 .react-flow__handle {
-  width: 10px !important;
-  height: 10px !important;
-  background-color: var(--text-primary-color) !important;
+  width: 12px !important;
+  height: 12px !important;
+
 }
 
 #root {

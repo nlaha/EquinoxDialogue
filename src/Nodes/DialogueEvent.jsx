@@ -15,8 +15,8 @@ import { Add, Delete, MessageRounded } from "@mui/icons-material";
 import Button from "@mui/joy/Button";
 import Grid from "@mui/joy/Grid";
 import { KeyboardArrowDown } from "@mui/icons-material";
-
-const handleStyle = { left: 10 };
+import { useUpdateNodeInternals } from "reactflow";
+import NodeHeader from "./Util/NodeHeader";
 
 export default function DialogueEventNode({ data }) {
   // state for npc text
@@ -25,6 +25,12 @@ export default function DialogueEventNode({ data }) {
     data.responses === undefined ? ["Yes", "No"] : data.responses
   );
   const [collapseResponses, setCollapseResponses] = React.useState(false);
+  const updateNodeInternals = useUpdateNodeInternals();
+
+  // run on create
+  React.useEffect(() => {
+    data.responses = responses;
+  }, []);
 
   // on change for npc text
   const onChangeNpcText = (evt) => {
@@ -35,6 +41,7 @@ export default function DialogueEventNode({ data }) {
   const addResponse = () => {
     setResponses([...responses, ""]);
     data.responses = responses;
+    updateNodeInternals(data.id);
   };
 
   const deleteResponse = (index) => {
@@ -42,6 +49,7 @@ export default function DialogueEventNode({ data }) {
     array.splice(index, 1);
     setResponses(array);
     data.responses.splice(index, 1);
+    updateNodeInternals(data.id);
   };
 
   const onChangeResponse = (evt, index) => {
@@ -66,9 +74,7 @@ export default function DialogueEventNode({ data }) {
         id="flow"
       />
       <Card sx={{ minWidth: "500px" }}>
-        <Typography level="h2" fontSize="md" sx={{ mb: 0.5 }}>
-          Dialogue Event
-        </Typography>
+        <NodeHeader nodeName="Dialogue Event" id={data.id} />
         <CardContent>
           <FormLabel htmlFor="npc_text">NPC Text:</FormLabel>
           <Textarea
