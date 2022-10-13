@@ -40,12 +40,8 @@ import ReactFlow, {
 // 👇 you need to import the reactflow styles
 import "reactflow/dist/style.css";
 
-let id = 0;
-const getId = () => `node_${id++}`;
-
 const initialEdges = [];
 
-let init_id = getId();
 const initialNodes = [];
 
 // create global contexts
@@ -65,6 +61,12 @@ const App = () => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const { setViewport } = useReactFlow();
+
+  const getId = (node_count) => {
+    // increment id
+    console.log("incrementing id: " + node_count);
+    return `node_${node_count + 1}`;
+  };
 
   // define node types
   const nodeTypes = useMemo(
@@ -103,7 +105,7 @@ const App = () => {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
-      const id = getId();
+      const id = getId(reactFlowInstance.getNodes().length - 1);
       const newNode = {
         id: id,
         type,
@@ -307,26 +309,16 @@ const App = () => {
     const restoreFlow = async () => {
       const flow = JSON.parse(json);
 
-      // check if gameplay events are present
-      if (flow["gameplay_events"] !== undefined) {
-        onGameplayEventsChange(flow.gameplay_events);
-      }
-
-      // count nodes
-      let node_count = 0;
-      for (const [key, value] of Object.entries(flow["nodes"])) {
-        if (value.type === "dialogue_event") {
-          node_count++;
-        }
-      }
-
-      id = node_count - 1;
-
       // clear nodes
       setNodes([]);
       setEdges([]);
 
       if (flow) {
+        // check if gameplay events are present
+        if (flow["gameplay_events"] !== undefined) {
+          onGameplayEventsChange(flow.gameplay_events);
+        }
+
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
         setNodes(flow.nodes || []);
         setEdges(flow.edges || []);
