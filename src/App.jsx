@@ -61,6 +61,7 @@ const App = () => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const { setViewport } = useReactFlow();
+  const [maxId, setMaxId] = useState(0);
 
   const getId = (node_count) => {
     // increment id
@@ -78,6 +79,11 @@ const App = () => {
     }),
     []
   );
+
+  // on max id change
+  useEffect(() => {
+    console.log("max id changed: " + maxId);
+  }, [maxId]);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -105,7 +111,7 @@ const App = () => {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
-      const id = getId(reactFlowInstance.getNodes().length);
+      const id = getId(maxId);
       const newNode = {
         id: id,
         type,
@@ -114,8 +120,11 @@ const App = () => {
       };
 
       setNodes((nds) => nds.concat(newNode));
+
+      // increment id
+      setMaxId(maxId + 1);
     },
-    [reactFlowInstance]
+    [reactFlowInstance, maxId]
   );
 
   const onGameplayEventsChange = (events) => {
@@ -317,6 +326,15 @@ const App = () => {
         // check if gameplay events are present
         if (flow["gameplay_events"] !== undefined) {
           onGameplayEventsChange(flow.gameplay_events);
+        }
+
+        if (flow["nodes"] !== undefined) {
+          // set max id
+          let max_id = 0;
+          flow["nodes"].forEach((node) => {
+            max_id += 1;
+          });
+          setMaxId(max_id);
         }
 
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
