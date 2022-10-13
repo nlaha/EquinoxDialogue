@@ -21,8 +21,9 @@ jobs:
           cache: "yarn"
 
       - run: yarn set version berry
-      - run: yarn install --immutable
-
+      - uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install # will run `yarn install` command
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
