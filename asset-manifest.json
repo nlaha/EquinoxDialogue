@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/EquinoxDialogue/static/css/main.59dbc133.css",
-    "main.js": "/EquinoxDialogue/static/js/main.c8071fcc.js",
-    "static/js/787.5e7017bb.chunk.js": "/EquinoxDialogue/static/js/787.5e7017bb.chunk.js",
-    "index.html": "/EquinoxDialogue/index.html",
-    "main.59dbc133.css.map": "/EquinoxDialogue/static/css/main.59dbc133.css.map",
-    "main.c8071fcc.js.map": "/EquinoxDialogue/static/js/main.c8071fcc.js.map",
-    "787.5e7017bb.chunk.js.map": "/EquinoxDialogue/static/js/787.5e7017bb.chunk.js.map"
+    "main.css": "./static/css/main.59dbc133.css",
+    "main.js": "./static/js/main.342a7b05.js",
+    "static/js/787.5e7017bb.chunk.js": "./static/js/787.5e7017bb.chunk.js",
+    "index.html": "./index.html",
+    "main.59dbc133.css.map": "./static/css/main.59dbc133.css.map",
+    "main.342a7b05.js.map": "./static/js/main.342a7b05.js.map",
+    "787.5e7017bb.chunk.js.map": "./static/js/787.5e7017bb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.59dbc133.css",
-    "static/js/main.c8071fcc.js"
+    "static/js/main.342a7b05.js"
   ]
 }
