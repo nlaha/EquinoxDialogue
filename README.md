@@ -3,6 +3,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/nlaha/EquinoxDialogue/Node.js%20CI?label=Node.js%20CI)
 ![GitHub issues](https://img.shields.io/github/issues/nlaha/EquinoxDialogue)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/nlaha/EquinoxDialogue)
+![LGTM Alerts](https://img.shields.io/lgtm/alerts/github/nlaha/EquinoxDialogue)
 
 Try it here! https://nlaha.github.io/EquinoxDialogue/
 
