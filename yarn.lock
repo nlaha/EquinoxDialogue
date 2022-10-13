@@ -2668,33 +2668,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/auto-id@npm:^0.10.5":
-  version: 0.10.5
-  resolution: "@reach/auto-id@npm:0.10.5"
-  dependencies:
-    "@reach/utils": 0.10.5
-    tslib: ^2.0.0
-  peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: c91c1df796529192027bbfdd7bf4908d55adf99f70be47c2cbb56b258e266992d59a4325536df5e76e6f90b50bae445730fbb5b5cf9a02bed4833f6930d2f0b3
-  languageName: node
-  linkType: hard
-
-"@reach/utils@npm:0.10.5":
-  version: 0.10.5
-  resolution: "@reach/utils@npm:0.10.5"
-  dependencies:
-    "@types/warning": ^3.0.0
-    tslib: ^2.0.0
-    warning: ^4.0.3
-  peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: 34acbff41f521774d78d847f9f463b187f5a85c903b43ff1b47a3368f97625809dded58156daa2dc25ecfa21a6f7c6c428286974531f964d0733cf4842edda5f
-  languageName: node
-  linkType: hard
-
 "@reactflow/background@npm:11.0.2":
   version: 11.0.2
   resolution: "@reactflow/background@npm:11.0.2"
@@ -3862,13 +3835,6 @@ __metadata:
   version: 1.10.6
   resolution: "@types/verror@npm:1.10.6"
   checksum: 650620b851d42cda6e5f6fa84f4d89c259b3f85f7443ee1c85f4f9a9e1ce7b472640c833ef483d0803f8100d6228a82fb9776f53d5539cfe1d8f06adfb04e10c
-  languageName: node
-  linkType: hard
-
-"@types/warning@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@types/warning@npm:3.0.0"
-  checksum: 120dcf90600d583c68a60872200061eab9318ae15ea898581f8e9a6dc71b7941095dd81d8324e36d2a6006e5e12b6fc1cf8eda00cc514ee12bb39a912cc4e040
   languageName: node
   linkType: hard
 
@@ -6237,26 +6203,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-path@npm:1":
-  version: 1.0.9
-  resolution: "d3-path@npm:1.0.9"
-  checksum: d4382573baf9509a143f40944baeff9fead136926aed6872f7ead5b3555d68925f8a37935841dd51f1d70b65a294fe35c065b0906fb6e42109295f6598fc16d0
-  languageName: node
-  linkType: hard
-
 "d3-selection@npm:2 - 3, d3-selection@npm:3, d3-selection@npm:^3.0.0":
   version: 3.0.0
   resolution: "d3-selection@npm:3.0.0"
   checksum: f4e60e133309115b99f5b36a79ae0a19d71ee6e2d5e3c7216ef3e75ebd2cb1e778c2ed2fa4c01bef35e0dcbd96c5428f5bd6ca2184fe2957ed582fde6841cbc5
-  languageName: node
-  linkType: hard
-
-"d3-shape@npm:^1.3.7":
-  version: 1.3.7
-  resolution: "d3-shape@npm:1.3.7"
-  dependencies:
-    d3-path: 1
-  checksum: 46566a3ab64a25023653bf59d64e81e9e6c987e95be985d81c5cedabae5838bd55f4a201a6b69069ca862eb63594cd263cac9034afc2b0e5664dfe286c866129
   languageName: node
   linkType: hard
 
@@ -6983,7 +6933,6 @@ __metadata:
     electron: ^21.1.1
     electron-builder: ^23.6.0
     electronmon: ^2.0.2
-    flume: "patch:flume@^0.8.0#.yarn/patches/flume-npm-0.8.0-e9f24da865.patch"
     gh-pages: ^4.0.0
     postinstall-postinstall: ^2.1.0
     react: ^18.2.0
@@ -7835,40 +7784,6 @@ __metadata:
   version: 3.2.7
   resolution: "flatted@npm:3.2.7"
   checksum: 427633049d55bdb80201c68f7eb1cbd533e03eac541f97d3aecab8c5526f12a20ccecaeede08b57503e772c769e7f8680b37e8d482d1e5f8d7e2194687f9ea35
-  languageName: node
-  linkType: hard
-
-"flume@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "flume@npm:0.8.0"
-  dependencies:
-    "@reach/auto-id": ^0.10.5
-    d3-shape: ^1.3.7
-    lodash: ^4.17.15
-    nanoid: ^3.1.30
-    react-portal: ^4.2.1
-  peerDependencies:
-    prop-types: ^15.5.4
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: b4a815ca80222f6aeedfeee6344d2343f226dd7a167a8a27aa576634ea8292e36d39ce1a204013ffcf416417712758a53c2f57485f77e2ba6263b47c55e902a5
-  languageName: node
-  linkType: hard
-
-"flume@patch:flume@^0.8.0#.yarn/patches/flume-npm-0.8.0-e9f24da865.patch::locator=equinox-dialogue%40workspace%3A.":
-  version: 0.8.0
-  resolution: "flume@patch:flume@npm%3A0.8.0#.yarn/patches/flume-npm-0.8.0-e9f24da865.patch::version=0.8.0&hash=fcd906&locator=equinox-dialogue%40workspace%3A."
-  dependencies:
-    "@reach/auto-id": ^0.10.5
-    d3-shape: ^1.3.7
-    lodash: ^4.17.15
-    nanoid: ^3.1.30
-    react-portal: ^4.2.1
-  peerDependencies:
-    prop-types: ^15.5.4
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: 8bf0b37c4272a289ede71bbc76192ed67e575fb91779725ab03e2302bacc338e86b444bfd7cb0c7b9f22e280745a0781863a813375d38d16fec0378c4b7d2489
   languageName: node
   linkType: hard
 
@@ -10272,7 +10187,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -10696,7 +10611,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.30, nanoid@npm:^3.3.4":
+"nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
   bin:
@@ -12322,7 +12237,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -12531,18 +12446,6 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: e72d0ba81b5922759e4aff17e0252bd29988f9642ed817f56b25a3e217e13eea8a7f2322af99a06edb779da12d5d636e9fda473d620df9a3da0df2a74141d53e
-  languageName: node
-  linkType: hard
-
-"react-portal@npm:^4.2.1":
-  version: 4.2.2
-  resolution: "react-portal@npm:4.2.2"
-  dependencies:
-    prop-types: ^15.5.8
-  peerDependencies:
-    react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
-    react-dom: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: dc7cd0c6907d1859c0eca4571108934ac791eb9eaf020529a26d4732b7bb556a53bf7e87e868f9918bd60c58f512cc36a49aef5671c964d0a49494168fb2abe0
   languageName: node
   linkType: hard
 
@@ -14289,7 +14192,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
@@ -14675,15 +14578,6 @@ __metadata:
   dependencies:
     makeerror: 1.0.12
   checksum: ad7a257ea1e662e57ef2e018f97b3c02a7240ad5093c392186ce0bcf1f1a60bbadd520d073b9beb921ed99f64f065efb63dfc8eec689a80e569f93c1c5d5e16c
-  languageName: node
-  linkType: hard
-
-"warning@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "warning@npm:4.0.3"
-  dependencies:
-    loose-envify: ^1.0.0
-  checksum: 4f2cb6a9575e4faf71ddad9ad1ae7a00d0a75d24521c193fa464f30e6b04027bd97aa5d9546b0e13d3a150ab402eda216d59c1d0f2d6ca60124d96cd40dfa35c
   languageName: node
   linkType: hard
 
