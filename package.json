@@ -15,7 +15,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "electron": "^21.1.1",
     "flume": "patch:flume@^0.8.0#.yarn/patches/flume-npm-0.8.0-e9f24da865.patch",
     "gh-pages": "^4.0.0",
     "postinstall-postinstall": "^2.1.0",
@@ -62,7 +61,8 @@
     "flume@^0.8.0": "patch:flume@npm%3A0.8.0#./.yarn/patches/flume-npm-0.8.0-e9f24da865.patch"
   },
   "devDependencies": {
-    "electron-builder": "^23.6.0"
+    "electron-builder": "^23.6.0",
+    "electron": "^21.1.1"
   },
   "build": {
     "appId": "com.nlaha.equinoxdialogue",
