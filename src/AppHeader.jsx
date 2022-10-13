@@ -13,10 +13,12 @@ import { useColorScheme } from "@mui/joy/styles";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import NodePalette from "./NodePalette";
+import { GlobalDataContext } from "./Providers";
 
 export default function AppHeader(props) {
   const [openEventModal, setOpenEventModal] = React.useState(false);
   const { mode, setMode } = useColorScheme();
+  const globalData = React.useContext(GlobalDataContext);
 
   // run once
   React.useEffect(() => {
@@ -31,6 +33,7 @@ export default function AppHeader(props) {
       <EventsModal
         open={openEventModal}
         setOpen={setOpenEventModal}
+        events={globalData.gameplay_events}
         onEventsChange={props.onEventsChange}
       />
       <Container sx={{ position: "fixed", top: 0 }} maxWidth="false">

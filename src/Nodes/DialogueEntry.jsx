@@ -9,36 +9,37 @@ import TextField from "@mui/joy/TextField";
 import FormLabel from "@mui/joy/FormLabel";
 import AddHomeIcon from "@mui/icons-material/AddHome";
 
-const handleStyle = { left: 10 };
+import NodeHeader from "./Util/NodeHeader";
 
 export default function DialogueEntryNode({ data }) {
   // state for npc name
   const [npcName, setNpcName] = React.useState(data.npc_name || "");
 
-  const onChange = useCallback((evt) => {
+  const onChange = (evt) => {
+    // value
     setNpcName(evt.target.value);
+    // data
     data.npc_name = evt.target.value;
-  }, []);
+  };
 
   return (
     <>
       <Card>
-        <Typography level="h2" fontSize="md" sx={{ mb: 0.5 }}>
-          Dialogue Entry
-        </Typography>
-        <AddHomeIcon
-          sx={{
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem",
-            color: "#00ff00",
-          }}
+        <NodeHeader
+          id={data.id}
+          nodeName="Dialogue Entry"
+          nodeDecorators={
+            <>
+              <AddHomeIcon sx={{ color: "#00ff00" }} />
+            </>
+          }
         />
         <FormLabel htmlFor="npc_name">NPC Name:</FormLabel>
         <TextField
           variant="soft"
           id="npc_name"
           name="npc_name"
+          placeholder="NPC Name..."
           onChange={onChange}
           value={npcName}
         />
