@@ -4,6 +4,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/nlaha/EquinoxDialogue)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/nlaha/EquinoxDialogue)
 
+Try it here! https://nlaha.github.io/EquinoxDialogue/
 
 Equinox dialogue is a web-based dialogue tree builder for EquinoxEngine. It is built using React, please read the instructions below if you are a contributor.
 
