@@ -101,7 +101,7 @@ export default function EventsModal(props) {
             <List>
               {events.map((event, index) => (
                 <ListItem
-                  sx={{ m: 1 }}
+                  className="margin-one"
                   key={index}
                   endAction={
                     <Button

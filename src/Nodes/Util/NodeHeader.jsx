@@ -11,18 +11,12 @@ export default function NodeHeader(props) {
       alignItems="flex-start"
     >
       <Grid item xs>
-        <Typography level="h2" fontSize="md" sx={{ mb: 0.5 }}>
+        <Typography level="h2" fontSize="md" className="margin-bottom-half">
           {props.nodeName}
         </Typography>
         <CopyNodeIdButton id={props.id} />
       </Grid>
-      <Grid
-        item
-        sx={{
-          ml: 5,
-          float: "right",
-        }}
-      >
+      <Grid item className="node-decorator-container">
         {props.nodeDecorators}
       </Grid>
     </Grid>

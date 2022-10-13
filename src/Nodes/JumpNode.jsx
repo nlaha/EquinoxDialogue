@@ -28,7 +28,7 @@ export default function JumpNode({ data }) {
         type="target"
         position={Position.Top}
         id="flow"
-        style={{ zIndex: 5 }}
+        className="handle-z-lift"
       />
       <Card sx={{ minWidth: "200px" }}>
         <NodeHeader

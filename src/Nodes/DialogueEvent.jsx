@@ -68,17 +68,17 @@ export default function DialogueEventNode({ data }) {
   return (
     <>
       <Handle
-        style={{ zIndex: 10 }}
+        className="handle-z-lift"
         type="target"
         position={Position.Top}
         id="flow"
       />
-      <Card sx={{ minWidth: "500px" }}>
+      <Card className="dialogue-event">
         <NodeHeader nodeName="Dialogue Event" id={data.id} />
         <CardContent>
           <FormLabel htmlFor="npc_text">NPC Text:</FormLabel>
           <Textarea
-            sx={{ mb: 1 }}
+            className="margin-bottom-one"
             minRows={3}
             placeholder="Enter NPC text here..."
             variant="soft"
@@ -127,7 +127,7 @@ export default function DialogueEventNode({ data }) {
                       <Delete />
                     </IconButton>
                     <Textarea
-                      sx={{ m: 1 }}
+                      className="margin-one"
                       placeholder="Response text..."
                       variant="soft"
                       id={`response_${index}`}
@@ -149,16 +149,14 @@ export default function DialogueEventNode({ data }) {
             )}
           </List>
         </CardContent>
-        <Grid container>
+        <Box className="response-handle-margin"></Box>
+        <Grid container className="response_handle_container">
           {responses.map((response, index) => (
             <Grid item xs>
               <Typography textAlign="center">{response}</Typography>
               <Handle
                 type="source"
-                style={{
-                  position: "relative",
-                  margin: 1,
-                }}
+                className="response-handle"
                 position={Position.Bottom}
                 id={`response_${index}`}
               />

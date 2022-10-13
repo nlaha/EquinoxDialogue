@@ -91,6 +91,49 @@ button {
   stroke: var(--accent-color) !important;
 }
 
+.margin-one {
+  margin: 0.5rem !important;
+}
+
+.margin-bottom-one {
+  margin-bottom: 0.5rem !important;
+}
+
+.dialogue-event {
+  min-width: 500px;
+}
+
+.response-handle-margin {
+  height: 30px;
+}
+
+.response-handle {
+  position: relative !important;
+  margin-top: 0.5rem;
+}
+
+.handle-z-lift {
+  z-index: 10;
+}
+
+.margin-bottom-half {
+  margin-bottom: 0.3rem !important;
+}
+
+.node-decorator-container {
+  margin-left: 5rem !important;
+  float: right !important;
+}
+
+.float-right {
+  float: right !important;
+}
+
+.app-header-container {
+  position: fixed !important ;
+  top: 0 !important;
+}
+
 .react-flow__edge.selected > .react-flow__edge-path {
   stroke: var(--accent-color-light) !important;
 }
@@ -137,4 +180,10 @@ button {
 
 #root {
   height: 100% !important;
+}
+
+.response_handle_container {
+  position: absolute;
+  bottom: -2px;
+  width: 100%;
 }

@@ -80,6 +80,98 @@ const App = () => {
     []
   );
 
+  // allow copying and pasting
+  const onCopy = useCallback(
+    (event) => {
+      // copy selected nodes
+      console.log("copying nodes");
+      const selectedNodes = reactFlowInstance
+        .getNodes()
+        .filter((n) => n.selected);
+      const selectedEdges = reactFlowInstance
+        .getEdges()
+        .filter((e) => e.selected);
+      // log selected nodes
+      console.log(selectedNodes);
+      const copiedNodesAndEdges = [...selectedNodes, ...selectedEdges];
+      navigator.clipboard.writeText(JSON.stringify(copiedNodesAndEdges));
+    },
+    [reactFlowInstance]
+  );
+
+  const onPaste = useCallback(
+    (event) => {
+      // paste nodes
+      console.log("pasting nodes");
+      navigator.clipboard.readText().then((text) => {
+        const parsed = JSON.parse(text);
+        const copiedNodes = parsed.filter((n) => n.type);
+        const copiedEdges = parsed.filter((e) => !e.type);
+        // log edges
+        console.log(copiedEdges);
+        // log nodes
+        console.log(copiedNodes);
+        let edgeIndex = 0;
+        let newCopiedEdges = copiedEdges.map((e) => {
+          const newEdge = { ...e };
+          // increment id
+          newEdge.id = "reactflow__edge-node_" + getId(maxId + edgeIndex);
+          setMaxId(maxId + edgeIndex);
+          edgeIndex++;
+          try {
+            newEdge.source = copiedNodes.find((n) => n.id === e.source).id;
+            newEdge.target = copiedNodes.find((n) => n.id === e.target).id;
+          } catch (error) {
+            // don't paste edges that don't have a source or target
+            return null;
+          }
+          return newEdge;
+        });
+        let index = edgeIndex;
+        const newCopiedNodes = copiedNodes.map((n) => {
+          const newNode = { ...n };
+          newNode.id = getId(maxId + index);
+          index++;
+          newNode.data.id = newNode.id;
+          // remove copied edges that are null
+          newCopiedEdges = newCopiedEdges.filter((e) => e !== null);
+          // update any edges that point to the old node
+          newCopiedEdges.forEach((e) => {
+            if (e.source === n.id) {
+              e.source = newNode.id;
+            }
+            if (e.target === n.id) {
+              e.target = newNode.id;
+            }
+          });
+          newNode.position = {
+            x: n.position.x + 20,
+            y: n.position.y + 20,
+          };
+          return newNode;
+        });
+
+        // increment id
+        setMaxId(maxId + index);
+        console.log(newCopiedEdges);
+        console.log(newCopiedNodes);
+        setNodes((ns) => [...ns, ...newCopiedNodes]);
+        setEdges((es) => [...es, ...newCopiedEdges]);
+      });
+    },
+    [maxId]
+  );
+
+  // copy keyboard shortcuts
+  useEffect(() => {
+    document.addEventListener("copy", onCopy);
+    document.addEventListener("paste", onPaste);
+    return () => {
+      document.removeEventListener("copy", onCopy);
+      document.removeEventListener("paste", onPaste);
+    };
+  }, [onCopy, onPaste]);
+
   // on max id change
   useEffect(() => {
     console.log("max id changed: " + maxId);

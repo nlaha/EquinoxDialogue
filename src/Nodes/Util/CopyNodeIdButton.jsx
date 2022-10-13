@@ -21,7 +21,7 @@ export default function CopyNodeIdButton(props) {
         level="subtitle1"
         fontStyle="italic"
         fontSize="sm"
-        sx={{ mb: 0.5 }}
+        className="margin-bottom-half"
       >
         ID: {props.id}
       </Typography>

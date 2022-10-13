@@ -36,12 +36,12 @@ export default function AppHeader(props) {
         events={globalData.gameplay_events}
         onEventsChange={props.onEventsChange}
       />
-      <Container sx={{ position: "fixed", top: 0 }} maxWidth="false">
+      <Container className="app-header-container" maxWidth="false">
         <Grid container spacing={2} justifyContent="flex-start" flexWrap="wrap">
           <Grid xs={8} item container>
             <Grid item>
               <Button
-                sx={{ m: 1 }}
+                className="margin-one"
                 variant="solid"
                 color="danger"
                 onClick={props.newNodes}
@@ -49,7 +49,7 @@ export default function AppHeader(props) {
                 <NoteAddIcon />
               </Button>
               <Button
-                sx={{ m: 1 }}
+                className="margin-one"
                 variant="solid"
                 color="success"
                 onClick={props.saveNodes}
@@ -57,7 +57,7 @@ export default function AppHeader(props) {
                 <Save />
               </Button>
               <Button
-                sx={{ m: 1 }}
+                className="margin-one"
                 variant="solid"
                 color="warning"
                 onClick={props.openFileDialog}
@@ -78,7 +78,7 @@ export default function AppHeader(props) {
             </Grid>
             <Grid xs item>
               <Button
-                sx={{ m: 1 }}
+                className="margin-one"
                 variant="solid"
                 color="primary"
                 onClick={props.exportNodes}
@@ -87,7 +87,7 @@ export default function AppHeader(props) {
               </Button>
               |
               <Button
-                sx={{ m: 1 }}
+                className="margin-one"
                 variant="soft"
                 color="neutral"
                 onClick={() => setOpenEventModal(true)}
@@ -99,7 +99,7 @@ export default function AppHeader(props) {
           <Grid xs item>
             <NodePalette />
             <Button
-              sx={{ m: 1, float: "right" }}
+              className="margin-one float-right"
               variant="soft"
               color="neutral"
               onClick={() => {
