@@ -25,9 +25,9 @@ Build dialogue trees, when done click save or export. Save will serialize the en
 - Support for metadata
 - Support for multiple NPCs in one conversation
 - Autosaving
-- Electron app
+- ~~Electron app~~
 - Exit node
-- Jump node and visible node IDs
+- ~~Jump node and visible node IDs~~
 
 # Building from source
 
