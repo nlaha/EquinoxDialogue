@@ -55,3 +55,74 @@ To package the electron app as an executable run...
 yarn electron:package:<mac,win,linux>
 ```
 Replacing `<mac,win,linux>` with your OS
+
+# Sample Output
+The following is sample JSON from an exported dialogue tree
+
+```json
+{
+  "id": "node_0",
+  "npc_name": "AI Character",
+  "type": "dialogue_entry",
+  "responses": [
+    {
+      "type": "none",
+      "next": {
+        "id": "node_1",
+        "type": "gameplay_event",
+        "responses": [
+          {
+            "type": "pass",
+            "next_node": {
+              "id": "node_2",
+              "type": "dialogue_event",
+              "responses": [
+                {
+                  "type": "end_response",
+                  "text": "Yes"
+                },
+                {
+                  "type": "choice_response",
+                  "text": "No",
+                  "next_node": {
+                    "id": "node_3",
+                    "type": "jump_node",
+                    "responses": [
+                      {
+                        "type": "end_response",
+                        "text": "Exit"
+                      }
+                    ],
+                    "jump_to": "node_1"
+                  }
+                },
+                {
+                  "type": "choice_response",
+                  "text": "Other Response",
+                  "next_node": {
+                    "id": "node_4",
+                    "type": "gameplay_event",
+                    "responses": [
+                      {
+                        "type": "end_response",
+                        "text": "Exit"
+                      }
+                    ],
+                    "event": "test_gameplay_event_2"
+                  }
+                }
+              ],
+              "npc_text": "This is a test dialogue node"
+            }
+          }
+        ],
+        "event": "test_gameplay_event_1"
+      }
+    }
+  ],
+  "gameplay_events": [
+    "test_gameplay_event_1",
+    "test_gameplay_event_2"
+  ]
+}
+```
