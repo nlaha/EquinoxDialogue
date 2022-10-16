@@ -22,7 +22,7 @@ Build dialogue trees, when done click save or export. Save will serialize the en
 
 ## Keybinds
 
-Limited copy/paste support is availible through: CTRL-C CTRL-V
+Limited copy/paste support is available through: CTRL-C CTRL-V
 
 Delete nodes or connections with: DEL
 
