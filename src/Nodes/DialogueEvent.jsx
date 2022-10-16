@@ -153,7 +153,7 @@ export default function DialogueEventNode({ data }) {
         <Grid container className="response_handle_container">
           {responses.map((response, index) => (
             <Grid item xs>
-              <Typography textAlign="center">{response}</Typography>
+              <Typography textAlign="center">"{response}"</Typography>
               <Handle
                 type="source"
                 className="response-handle"
