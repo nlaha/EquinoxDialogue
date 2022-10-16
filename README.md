@@ -20,6 +20,12 @@ What is "Equinox Engine"? It's something I'm working on that isn't quite ready t
 
 Build dialogue trees, when done click save or export. Save will serialize the entire tree + metadata whereas export will only export data needed by a game engine. This is tool is designed to work on a one NPC per tree system, so for each NPC you'll have a dedicated `.dlg` file. It does not currently support multiple NPCs in a single conversation.
 
+## Keybinds
+
+Limited copy/paste support is availible through: CTRL-C CTRL-V
+
+Delete nodes or connections with: DEL
+
 # Roadmap
 - Support for metadata conditionals (if quest completed -> unlocks dialogue subtree)
 - Support for metadata
