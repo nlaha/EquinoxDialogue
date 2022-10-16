@@ -13,8 +13,8 @@ What is "Equinox Engine"? It's something I'm working on that isn't quite ready t
 
 # Screenshots
 
-![Web capture_11-10-2022_21449_localhost](https://user-images.githubusercontent.com/10292944/195253359-f405b6f5-ea84-4045-8246-00c09984dca4.jpeg)
-![Web capture_11-10-2022_214326_localhost](https://user-images.githubusercontent.com/10292944/195253374-25d80153-0e6b-4e5c-b33f-8a7d3fe599a8.jpeg)
+![Web capture_16-10-2022_142649_localhost](https://user-images.githubusercontent.com/10292944/196059156-7572db3e-cf3b-418a-b0c8-704ebb497a83.jpeg)
+![Web capture_16-10-2022_142714_localhost](https://user-images.githubusercontent.com/10292944/196059147-d60a6732-e898-4bf5-be64-f82033cbe07b.jpeg)
 
 # Usage
 
