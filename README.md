@@ -42,3 +42,16 @@ To build static files for production run...
 ```
 yarn build
 ```
+
+# Electron
+
+To start the electron app in development mode run...
+```
+yarn electron:start
+```
+
+To package the electron app as an executable run...
+```
+yarn electron:package:<mac,win,linux>
+```
+Replacing `<mac,win,linux>` with your OS
