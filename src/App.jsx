@@ -365,7 +365,7 @@ const App = () => {
           type: value.type,
           responses: [
             {
-              type: "none",
+              type: "pass",
               next: recurseTree(findOutputs(value.id, node_obj)[0], node_obj),
             },
           ],
