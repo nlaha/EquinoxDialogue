@@ -530,7 +530,7 @@ const App = () => {
             <Typography
               className="footer"
               sx={{
-                fontSize: 16,
+                fontSize: 10,
                 position: "absolute",
                 bottom: 15,
                 left: 65,
