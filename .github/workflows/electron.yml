@@ -23,8 +23,10 @@ jobs:
           node-version: 16
           cache: "yarn"
 
-      - run: yarn set version berry
-      - run: yarn install --frozen-lockfile
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
