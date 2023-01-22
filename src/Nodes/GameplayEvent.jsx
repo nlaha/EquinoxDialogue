@@ -3,8 +3,7 @@ import { Handle, Position } from "reactflow";
 import * as React from "react";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
-// text field
-import TextField from "@mui/joy/TextField";
+import Input from "@mui/joy/Input";
 // label
 import FormLabel from "@mui/joy/FormLabel";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";

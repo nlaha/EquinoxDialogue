@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/joy/List";
 // list item
 import ListItem from "@mui/joy/ListItem";
-import { Grid, TextField } from "@mui/joy";
+import { Grid, Input } from "@mui/joy";
 
 export default function EventsModal(props) {
   // events storage
@@ -121,7 +121,7 @@ export default function EventsModal(props) {
             </List>
             <Grid container spacing={2}>
               <Grid item xs>
-                <TextField
+                <Input
                   placeholder="Event name..."
                   onChange={handleChange}
                   value={event}
@@ -131,7 +131,7 @@ export default function EventsModal(props) {
                       ev.preventDefault();
                     }
                   }}
-                ></TextField>
+                ></Input>
               </Grid>
               <Grid item xs>
                 <Button onClick={handleAdd}>Add Event</Button>

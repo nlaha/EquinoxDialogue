@@ -3,8 +3,7 @@ import { Handle, Position } from "reactflow";
 import * as React from "react";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
-// text field
-import TextField from "@mui/joy/TextField";
+import Input from "@mui/joy/Input";
 // label
 import FormLabel from "@mui/joy/FormLabel";
 import AddHomeIcon from "@mui/icons-material/AddHome";
@@ -35,7 +34,7 @@ export default function DialogueEntryNode({ data }) {
           }
         />
         <FormLabel htmlFor="npc_name">NPC Name:</FormLabel>
-        <TextField
+        <Input
           variant="soft"
           id="npc_name"
           name="npc_name"

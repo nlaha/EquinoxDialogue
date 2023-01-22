@@ -3,8 +3,7 @@ import { Handle, Position } from "reactflow";
 import * as React from "react";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
-// text field
-import TextField from "@mui/joy/TextField";
+import Input from "@mui/joy/Input";
 // label
 import FormLabel from "@mui/joy/FormLabel";
 import AddHomeIcon from "@mui/icons-material/AddHome";
@@ -150,19 +149,23 @@ export default function DialogueEventNode({ data }) {
           </List>
         </CardContent>
         <Box className="response-handle-margin"></Box>
-        <Grid container className="response_handle_container">
-          {responses.map((response, index) => (
-            <Grid item xs>
-              <Typography textAlign="center">"{response}"</Typography>
-              <Handle
-                type="source"
-                className="response-handle"
-                position={Position.Bottom}
-                id={`response_${index}`}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        {responses.length > 0 ? (
+          <Grid container className="response_handle_container">
+            {responses.map((response, index) => (
+              <Grid item xs>
+                <Typography textAlign="center">"{response}"</Typography>
+                <Handle
+                  type="source"
+                  className="response-handle"
+                  position={Position.Bottom}
+                  id={`response_${index}`}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Handle type="source" position={Position.Bottom} id="flow" />
+        )}
       </Card>
     </>
   );

@@ -3,8 +3,7 @@ import { Handle, Position } from "reactflow";
 import * as React from "react";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
-// text field
-import TextField from "@mui/joy/TextField";
+import Input from "@mui/joy/Input";
 // label
 import FormLabel from "@mui/joy/FormLabel";
 import MoveUpIcon from "@mui/icons-material/MoveUp";
@@ -41,7 +40,7 @@ export default function JumpNode({ data }) {
           }
         />
         <FormLabel htmlFor="jump">Node ID:</FormLabel>
-        <TextField
+        <Input
           variant="soft"
           id="jump"
           name="jump"
