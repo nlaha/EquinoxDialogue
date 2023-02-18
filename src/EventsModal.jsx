@@ -47,7 +47,7 @@ export default function EventsModal(props) {
   }
 
   return (
-    <Transition in={props.open} timeout={400}>
+    <Transition in={props.open} timeout={100}>
       {(state) => (
         <Modal
           keepMounted

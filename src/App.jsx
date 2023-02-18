@@ -381,7 +381,7 @@ const App = () => {
     const element = document.createElement("a");
     const file = new Blob([json], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = filename.replace(".dlg.src", ".dlg");
+    element.download = filename.replace(".dlg.src", ".json");
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
   };
@@ -525,6 +525,7 @@ const App = () => {
               exportNodes={exportNodes}
               onFileChange={onFileChange}
               filename={filename}
+              setFilename={setFilename}
               onEventsChange={onGameplayEventsChange}
             />
             <Typography
