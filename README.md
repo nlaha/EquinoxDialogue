@@ -1,3 +1,5 @@
+**Please Note! This repository has been archived. I have been contracted to write a proprietary version of this and thus do not plan on updating this repository for the forseable future. That said, if anyone wants to fork it, please feel free to do so.**
+
 ![logo_dialogue_rounded](https://user-images.githubusercontent.com/10292944/195273482-5c61364c-3f46-4435-8977-0027c2cad988.png)
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/nlaha/EquinoxDialogue/Node.js%20CI?label=Node.js%20CI)
